@@ -1,0 +1,215 @@
+/* ===============================
+   RESET BÁSICO
+=============================== */
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Ubuntu, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+/* ===============================
+   CONTENEDORES
+=============================== */
+#productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.producto {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 16px 12px 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    transition: transform 0.1s ease;
+}
+
+.producto:active {
+    transform: scale(0.98);
+}
+
+/* ===============================
+   ESTADO FALTANTE
+=============================== */
+.producto.falta {
+    border-left: 6px solid #f2c94c;
+    background-color: #fffdf5;
+}
+
+/* ===============================
+   TEXTO
+=============================== */
+.nombre {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.stock {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* ===============================
+   BOTONES + / -
+=============================== */
+.botones {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.botones button {
+    flex: 1;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 0;
+    background-color: #e9ecef;
+    color: #333;
+}
+
+.botones button:active {
+    background-color: #dfe3e6;
+}
+
+/* ===============================
+   ACCIONES (EDITAR / BORRAR)
+=============================== */
+.acciones {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    gap: 6px;
+}
+
+.acciones button {
+    border: none;
+    background: none;
+    font-size: 16px;
+    padding: 2px;
+    opacity: 0.65;
+}
+
+.acciones button:hover {
+    opacity: 1;
+}
+
+.acciones .editar {
+    color: #4f8cff;
+}
+
+.acciones .borrar {
+    color: #e57373;
+}
+
+/* ===============================
+   BUSCADOR
+=============================== */
+#busqueda {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+#busqueda:focus {
+    outline: none;
+    border-color: #4f8cff;
+}
+
+/* ===============================
+   BOTONES SUPERIORES
+=============================== */
+.controles {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.controles button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    background-color: #4f8cff;
+    color: white;
+}
+
+.controles button.secundario {
+    background-color: #adb5bd;
+}
+
+/* ===============================
+   LISTA DEL SÚPER
+=============================== */
+#lista-super {
+    margin-top: 24px;
+}
+
+#lista-super h3 {
+    margin: 16px 0 6px;
+    font-size: 15px;
+    color: #555;
+}
+
+#lista-super ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#lista-super li {
+    background-color: white;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* ===============================
+   AJUSTES MOBILE (IPHONE)
+=============================== */
+@media (max-width: 480px) {
+    #productos {
+        grid-template-columns: 1fr;
+    }
+
+    .producto {
+        padding-top: 36px;
+        /* espacio para iconos */
+    }
+
+    .acciones {
+        top: 10px;
+        left: 10px;
+    }
+
+    .acciones button {
+        font-size: 15px;
+    }
+
+    .nombre {
+        margin-top: 4px;
+        font-size: 16px;
+    }
+
+    .stock {
+        font-size: 13px;
+    }
+}

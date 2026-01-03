@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock de la Casa</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Nombre para iOS -->
+    <meta name="apple-mobile-web-app-title" content="Las Niñas">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Ícono para iPhone -->
+    <link rel="apple-touch-icon" href="icons/icon-512.png">
+
+
+</head>
+
+<body>
+
+    <h1>Stock de Las Niñas</h1>
+
+    <!-- Barra superior -->
+    <div id="barra-superior">
+        <input type="text" id="busqueda" placeholder="Buscar producto…" autocomplete="off" />
+        <button id="limpiar" title="Limpiar búsqueda">✕</button>
+        <button id="agregar" title="Agregar producto">＋</button>
+    </div>
+
+    <!-- Productos -->
+    <div id="productos"></div>
+
+    <!-- Lista del súper -->
+    <h2>Lista del Súper</h2>
+    <div id="lista-super"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
