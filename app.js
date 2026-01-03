@@ -33,7 +33,7 @@ btnLimpiar.onclick = () => {
   render();
 };
 
-btnAgregar.onclick = () => {
+btnAgregar.onclick = async () => {
   const nombre = prompt("Nombre del producto:");
   if (!nombre) return;
 
@@ -54,13 +54,15 @@ btnAgregar.onclick = () => {
     return;
   }
 
-  productos.push({
+  const nuevoProducto = {
     nombre: nombreF,
     categoria: categoriaF,
     stock: 0,
     minimo
-  });
+  };
 
+  productos.push(nuevoProducto);
+  await guardarProductosBackend(); // Guardamos en backend
   render();
 };
 
@@ -115,7 +117,6 @@ function renderListaSuper() {
 
   const porCategoria = {};
 
-  // Agrupamos por categoría
   faltantes.forEach(p => {
     if (!porCategoria[p.categoria]) porCategoria[p.categoria] = [];
     porCategoria[p.categoria].push(p);
@@ -130,17 +131,17 @@ function renderListaSuper() {
     porCategoria[categoria].forEach((p, i) => {
       const li = document.createElement("li");
 
-      // Checkbox para comprar
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.dataset.index = productos.indexOf(p);
       checkbox.id = `super-${categoria}-${i}`;
 
-      checkbox.addEventListener("change", function() {
+      checkbox.addEventListener("change", async function() {
         if (this.checked) {
           const cantidad = parseInt(prompt(`¿Cuánto compraste de ${p.nombre}?`), 10);
           if (!isNaN(cantidad) && cantidad > 0) {
             productos[this.dataset.index].stock += cantidad;
+            await guardarProductosBackend();
             render();
           } else {
             this.checked = false;
@@ -164,29 +165,46 @@ function renderListaSuper() {
 // ===============================
 // ACCIONES
 // ===============================
-function sumar(i) {
+async function sumar(i) {
   productos[i].stock++;
+  await guardarProductosBackend();
   render();
 }
 
-function restar(i) {
+async function restar(i) {
   if (productos[i].stock > 0) productos[i].stock--;
+  await guardarProductosBackend();
   render();
 }
 
-function borrar(i) {
+async function borrar(i) {
   if (confirm("¿Eliminar producto?")) {
     productos.splice(i, 1);
+    await guardarProductosBackend();
     render();
   }
 }
 
-function editar(i) {
-  const nuevoMin = parseInt(prompt("Nuevo stock mínimo:", productos[i].minimo), 10);
-  if (!isNaN(nuevoMin)) {
-    productos[i].minimo = nuevoMin;
-    render();
-  }
+async function editar(i) {
+  const nuevoNombre = prompt("Nombre del producto:", productos[i].nombre);
+  if (!nuevoNombre) return;
+
+  const nuevaCategoria = prompt("Categoría:", productos[i].categoria);
+  if (!nuevaCategoria) return;
+
+  const nuevoStock = parseInt(prompt("Stock actual:", productos[i].stock), 10);
+  if (isNaN(nuevoStock) || nuevoStock < 0) return;
+
+  const nuevoMin = parseInt(prompt("Stock mínimo:", productos[i].minimo), 10);
+  if (isNaN(nuevoMin) || nuevoMin < 0) return;
+
+  productos[i].nombre = capitalizar(nuevoNombre);
+  productos[i].categoria = capitalizar(nuevaCategoria);
+  productos[i].stock = nuevoStock;
+  productos[i].minimo = nuevoMin;
+
+  await guardarProductosBackend();
+  render();
 }
 
 // ===============================
@@ -197,4 +215,33 @@ function capitalizar(texto) {
 }
 
 // ===============================
-render();
+// BACKEND
+// ===============================
+
+async function guardarProductosBackend() {
+  try {
+    await fetch("http://127.0.0.1:5000/productos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(productos)
+    });
+  } catch (error) {
+    console.error("No se pudo guardar en backend:", error);
+  }
+}
+
+async function cargarProductosBackend() {
+  try {
+    const res = await fetch("http://127.0.0.1:5000/productos");
+    const data = await res.json();
+    productos = data;
+  } catch (error) {
+    console.error("No se pudo cargar desde backend:", error);
+  }
+}
+
+// ===============================
+(async function init() {
+  await cargarProductosBackend();
+  render();
+})();
