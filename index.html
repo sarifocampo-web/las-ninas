@@ -2,34 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <title>Stock de las Niñas</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#f4f6f8" />
+  <!-- App iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Las Niñas">
 
-  <!-- iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Las Niñas" />
-  <link rel="apple-touch-icon" href="icons/icon-512.png" />
+  <!-- Icono -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" href="icons/apple-touch-icon.png">
 
   <!-- Estilos -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+
   <h1>Stock de las Niñas</h1>
 
+  <!-- Controles -->
   <div class="controles">
-    <input type="text" id="busqueda" placeholder="Buscar producto o categoría..." />
+    <input
+      type="text"
+      id="inputBusqueda"
+      placeholder="Buscar producto…"
+    />
+    <button id="btnLimpiar" aria-label="Salir de búsqueda">✕</button>
+    <button id="btnAgregar">＋</button>
   </div>
 
+  <!-- Productos -->
   <div id="productos"></div>
 
+  <!-- Script -->
   <script src="app.js"></script>
 </body>
 </html>
-
