@@ -115,6 +115,7 @@ function renderListaSuper() {
 
   const porCategoria = {};
 
+  // Agrupamos por categoría
   faltantes.forEach(p => {
     if (!porCategoria[p.categoria]) porCategoria[p.categoria] = [];
     porCategoria[p.categoria].push(p);
@@ -125,11 +126,36 @@ function renderListaSuper() {
     h3.textContent = categoria;
     listaSuper.appendChild(h3);
 
-    porCategoria[categoria].forEach(p => {
-      const item = document.createElement("div");
-      item.textContent = `• ${p.nombre}`;
-      listaSuper.appendChild(item);
+    const ul = document.createElement("ul");
+    porCategoria[categoria].forEach((p, i) => {
+      const li = document.createElement("li");
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = `super-${categoria}-${i}`;
+
+      checkbox.onchange = () => {
+        if (checkbox.checked) {
+          const cantidad = parseInt(prompt(`¿Cuánto compraste de ${p.nombre}?`), 10);
+          if (!isNaN(cantidad) && cantidad > 0) {
+            p.stock += cantidad;
+            render();
+          } else {
+            checkbox.checked = false;
+          }
+        }
+      };
+
+      const label = document.createElement("label");
+      label.htmlFor = checkbox.id;
+      label.textContent = `${p.nombre} (faltan ${p.minimo - p.stock})`;
+
+      li.appendChild(checkbox);
+      li.appendChild(label);
+      ul.appendChild(li);
     });
+
+    listaSuper.appendChild(ul);
   }
 }
 
