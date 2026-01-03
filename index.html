@@ -1,62 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- TÍTULO DE LA APP -->
-    <title>Las Niñas</title>
+  <title>Stock de las Niñas</title>
 
-    <!-- PWA / MANIFEST -->
-    <link rel="manifest" href="manifest.json">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#f4f6f8" />
 
-    <!-- ICONO PARA IPHONE -->
-    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <!-- iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Las Niñas" />
+  <link rel="apple-touch-icon" href="icons/icon-512.png" />
 
-    <!-- ESTILOS -->
-    <link rel="stylesheet" href="styles.css">
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <h1>Stock de las Niñas</h1>
 
-    <!-- HEADER -->
-    <header>
-        <h1>Stock de las Niñas</h1>
-    </header>
+  <div class="controles">
+    <input type="text" id="busqueda" placeholder="Buscar producto o categoría..." />
+  </div>
 
-    <!-- CONTROLES SUPERIORES -->
-    <div class="controles">
-        <input type="text" id="busqueda" placeholder="Buscar producto…" />
-        <button id="agregarProductoBtn">＋</button>
-    </div>
+  <div id="productos"></div>
 
-    <!-- LISTA DE PRODUCTOS -->
-    <main id="productos"></main>
-
-    <!-- LISTA DE SUPERMERCADO -->
-    <section id="listaSuper">
-        <h2>Lista de Supermercado</h2>
-
-        <div class="categoria">
-            <h3>Alimentos</h3>
-            <ul id="lista-alimentos"></ul>
-        </div>
-
-        <div class="categoria">
-            <h3>Verdulería</h3>
-            <ul id="lista-verduleria"></ul>
-        </div>
-
-        <div class="categoria">
-            <h3>Limpieza</h3>
-            <ul id="lista-limpieza"></ul>
-        </div>
-    </section>
-
-    <!-- SCRIPT -->
-    <script src="script.js"></script>
-
+  <script src="app.js"></script>
 </body>
-
 </html>
+
