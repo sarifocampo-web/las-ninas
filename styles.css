@@ -105,18 +105,10 @@ body {
     opacity: 1;
 }
 
-.acciones .editar {
-    color: #4f8cff;
-}
-
-.acciones .borrar {
-    color: #e57373;
-}
-
 /* ===============================
    BUSCADOR
 =============================== */
-#busqueda {
+#inputBusqueda {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 12px;
@@ -125,7 +117,7 @@ body {
     font-size: 15px;
 }
 
-#busqueda:focus {
+#inputBusqueda:focus {
     outline: none;
     border-color: #4f8cff;
 }
@@ -149,29 +141,25 @@ body {
     color: white;
 }
 
-.controles button.secundario {
-    background-color: #adb5bd;
-}
-
 /* ===============================
    LISTA DEL SÚPER
 =============================== */
-#lista-super {
+#listaSuper {
     margin-top: 24px;
 }
 
-#lista-super h3 {
+#listaSuper h3 {
     margin: 16px 0 6px;
     font-size: 15px;
     color: #555;
 }
 
-#lista-super ul {
+#listaSuper ul {
     list-style: none;
     padding-left: 0;
 }
 
-#lista-super li {
+#listaSuper li {
     background-color: white;
     padding: 8px 10px;
     border-radius: 8px;
@@ -192,7 +180,6 @@ body {
 
     .producto {
         padding-top: 36px;
-        /* espacio para iconos */
     }
 
     .acciones {
