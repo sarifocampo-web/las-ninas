@@ -1,15 +1,15 @@
 {
-    "name": "Las Niñas",
-    "short_name": "Las Niñas",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#f4f6f8",
-    "theme_color": "#f4f6f8",
-    "icons": [
-        {
-            "src": "icons/icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "name": "Las Niñas",
+  "short_name": "Las Niñas",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#f4f6f8",
+  "icons": [
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
