@@ -2,10 +2,10 @@
 // ESTADO
 // ===============================
 let productos = [
-  { nombre: "Leche", categoria: "Alimentos", stock: 1 },
-  { nombre: "Fideos", categoria: "Alimentos", stock: 0 },
-  { nombre: "Detergente", categoria: "Limpieza", stock: 1 },
-  { nombre: "Tomate", categoria: "Verdulería", stock: 0 }
+  { nombre: "Leche", categoria: "Alimentos", stock: 1, minimo: 2 },
+  { nombre: "Fideos", categoria: "Alimentos", stock: 0, minimo: 1 },
+  { nombre: "Detergente", categoria: "Limpieza", stock: 1, minimo: 1 },
+  { nombre: "Tomate", categoria: "Verdulería", stock: 0, minimo: 2 }
 ];
 
 let textoBusqueda = "";
@@ -14,94 +14,123 @@ let textoBusqueda = "";
 // ELEMENTOS
 // ===============================
 const contenedor = document.getElementById("productos");
+const listaSuper = document.getElementById("listaSuper");
 const inputBusqueda = document.getElementById("inputBusqueda");
 const btnLimpiar = document.getElementById("btnLimpiar");
 const btnAgregar = document.getElementById("btnAgregar");
 
 // ===============================
-// EVENTOS (BLINDADOS)
+// EVENTOS
 // ===============================
-if (inputBusqueda) {
-  inputBusqueda.addEventListener("input", (e) => {
-    textoBusqueda = e.target.value.toLowerCase();
-    render();
+inputBusqueda.oninput = e => {
+  textoBusqueda = e.target.value.toLowerCase();
+  render();
+};
+
+btnLimpiar.onclick = () => {
+  textoBusqueda = "";
+  inputBusqueda.value = "";
+  render();
+};
+
+btnAgregar.onclick = () => {
+  const nombre = prompt("Nombre del producto:");
+  if (!nombre) return;
+
+  const categoria = prompt("Categoría:");
+  if (!categoria) return;
+
+  const minimo = parseInt(prompt("Stock mínimo:"), 10);
+  if (isNaN(minimo)) {
+    alert("El stock mínimo debe ser un número");
+    return;
+  }
+
+  const nombreF = capitalizar(nombre);
+  const categoriaF = capitalizar(categoria);
+
+  if (productos.some(p => p.nombre === nombreF)) {
+    alert("Ese producto ya existe");
+    return;
+  }
+
+  productos.push({
+    nombre: nombreF,
+    categoria: categoriaF,
+    stock: 0,
+    minimo
   });
-}
 
-if (btnLimpiar) {
-  btnLimpiar.onclick = () => {
-    textoBusqueda = "";
-    if (inputBusqueda) inputBusqueda.value = "";
-    render();
-  };
-}
-
-if (btnAgregar) {
-  btnAgregar.onclick = () => {
-    const nombre = prompt("Nombre del producto:");
-    if (!nombre) return;
-
-    const categoria = prompt("Categoría:");
-    if (!categoria) return;
-
-    const nombreFormateado =
-      nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
-    const categoriaFormateada =
-      categoria.charAt(0).toUpperCase() + categoria.slice(1).toLowerCase();
-
-    const existe = productos.some(
-      p => p.nombre === nombreFormateado
-    );
-
-    if (existe) {
-      alert("Ese producto ya existe");
-      return;
-    }
-
-    productos.push({
-      nombre: nombreFormateado,
-      categoria: categoriaFormateada,
-      stock: 0
-    });
-
-    render();
-  };
-}
+  render();
+};
 
 // ===============================
 // RENDER
 // ===============================
 function render() {
-  if (!contenedor) return;
+  renderProductos();
+  renderListaSuper();
+}
 
+function renderProductos() {
   contenedor.innerHTML = "";
 
-  const filtrados = productos.filter(p =>
-    p.nombre.toLowerCase().includes(textoBusqueda) ||
-    p.categoria.toLowerCase().includes(textoBusqueda)
-  );
+  productos
+    .filter(p =>
+      p.nombre.toLowerCase().includes(textoBusqueda) ||
+      p.categoria.toLowerCase().includes(textoBusqueda)
+    )
+    .forEach((p, i) => {
+      const div = document.createElement("div");
+      div.className = "producto" + (p.stock < p.minimo ? " falta" : "");
 
-  filtrados.forEach((p, index) => {
-    const card = document.createElement("div");
-    card.className = "producto" + (p.stock === 0 ? " falta" : "");
+      div.innerHTML = `
+        <div class="acciones">
+          <button onclick="editar(${i})">✏️</button>
+          <button onclick="borrar(${i})">🗑️</button>
+        </div>
 
-    card.innerHTML = `
-      <div class="acciones">
-        <button onclick="editar(${index})">✏️</button>
-        <button onclick="borrar(${index})">🗑️</button>
-      </div>
+        <div class="nombre">${p.nombre}</div>
+        <div class="stock">Stock: ${p.stock} (mín: ${p.minimo})</div>
 
-      <div class="nombre">${p.nombre}</div>
-      <div class="stock">Stock: ${p.stock}</div>
+        <div class="botones">
+          <button onclick="restar(${i})">−</button>
+          <button onclick="sumar(${i})">＋</button>
+        </div>
+      `;
 
-      <div class="botones">
-        <button onclick="restar(${index})">−</button>
-        <button onclick="sumar(${index})">＋</button>
-      </div>
-    `;
+      contenedor.appendChild(div);
+    });
+}
 
-    contenedor.appendChild(card);
+function renderListaSuper() {
+  listaSuper.innerHTML = "";
+
+  const faltantes = productos.filter(p => p.stock < p.minimo);
+
+  if (faltantes.length === 0) {
+    listaSuper.innerHTML = "<p>No falta nada 🎉</p>";
+    return;
+  }
+
+  const porCategoria = {};
+
+  faltantes.forEach(p => {
+    if (!porCategoria[p.categoria]) porCategoria[p.categoria] = [];
+    porCategoria[p.categoria].push(p);
   });
+
+  for (const categoria in porCategoria) {
+    const h3 = document.createElement("h3");
+    h3.textContent = categoria;
+    listaSuper.appendChild(h3);
+
+    porCategoria[categoria].forEach(p => {
+      const item = document.createElement("div");
+      item.textContent = `• ${p.nombre}`;
+      listaSuper.appendChild(item);
+    });
+  }
 }
 
 // ===============================
@@ -125,17 +154,19 @@ function borrar(i) {
 }
 
 function editar(i) {
-  const nuevoNombre = prompt("Nuevo nombre:", productos[i].nombre);
-  if (!nuevoNombre) return;
-
-  productos[i].nombre =
-    nuevoNombre.charAt(0).toUpperCase() +
-    nuevoNombre.slice(1).toLowerCase();
-
-  render();
+  const nuevoMin = parseInt(prompt("Nuevo stock mínimo:", productos[i].minimo), 10);
+  if (!isNaN(nuevoMin)) {
+    productos[i].minimo = nuevoMin;
+    render();
+  }
 }
 
 // ===============================
-// INIT
+// UTIL
+// ===============================
+function capitalizar(texto) {
+  return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+}
+
 // ===============================
 render();
