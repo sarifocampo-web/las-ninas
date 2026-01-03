@@ -130,21 +130,23 @@ function renderListaSuper() {
     porCategoria[categoria].forEach((p, i) => {
       const li = document.createElement("li");
 
+      // Checkbox para comprar
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
+      checkbox.dataset.index = productos.indexOf(p);
       checkbox.id = `super-${categoria}-${i}`;
 
-      checkbox.onchange = () => {
-        if (checkbox.checked) {
+      checkbox.addEventListener("change", function() {
+        if (this.checked) {
           const cantidad = parseInt(prompt(`¿Cuánto compraste de ${p.nombre}?`), 10);
           if (!isNaN(cantidad) && cantidad > 0) {
-            p.stock += cantidad;
+            productos[this.dataset.index].stock += cantidad;
             render();
           } else {
-            checkbox.checked = false;
+            this.checked = false;
           }
         }
-      };
+      });
 
       const label = document.createElement("label");
       label.htmlFor = checkbox.id;
