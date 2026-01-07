@@ -1,11 +1,10 @@
 {
-  "name": "Stock Las Niñas",
-  "short_name": "Stock",
-  "start_url": ".",
-  "scope": ".",
+  "name": "Las Niñas",
+  "short_name": "Las Niñas",
+  "start_url": "/las-ninas/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#f8b6c8",
+  "background_color": "#f4f6f8",
+  "theme_color": "#f4f6f8",
   "icons": [
     {
       "src": "icon-192-v2.png",
@@ -19,3 +18,4 @@
     }
   ]
 }
+
